@@ -1,11 +1,11 @@
 import numpy as np  
 
-sigma_x = np.array([[0, 1],
-                    [1, 0]], dtype=complex)
-sigma_y = np.array([[0, -1j],
-                    [1j, 0]], dtype=complex)
-sigma_z = np.array([[1, 0],
-                    [0, -1]], dtype=complex)
+sigma_x = np.array([[0, 1/2],
+                    [1/2, 0]], dtype=complex)
+sigma_y = np.array([[0, -1j/2],
+                    [1j/2, 0]], dtype=complex)
+sigma_z = np.array([[1/2, 0],
+                    [0, -1/2]], dtype=complex)
 I = np.array([[1, 0],
               [0, 1]], dtype=complex)
 
@@ -37,9 +37,9 @@ def construct_hamiltonian():
         # 计算 S_i^alpha · S_j^alpha 的和
         for sigma in [sigma_x, sigma_y, sigma_z]:
             # 构建 S_i^alpha  
-            S_i = spin_operator(sigma / 2, i, total_sites)
+            S_i = spin_operator(sigma, i, total_sites)
             # 构建 S_j^alpha  
-            S_j = spin_operator(sigma / 2, j, total_sites)
+            S_j = spin_operator(sigma, j, total_sites)
             H += S_i @ S_j  # 使用 @ 符号表示矩阵乘法
     return H.real
 
