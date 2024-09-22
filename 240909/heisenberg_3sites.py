@@ -9,7 +9,7 @@ sigma_z = np.array([[1/2, 0],
 I = np.array([[1, 0],
               [0, 1]], dtype=complex)
 
-# 定义自旋算符 S_i^alpha = (1/2) * sigma^alpha  
+# 定义自旋算符 
 def spin_operator(sigma, site, total_sites):
     """构造第 site 个自旋的算符，总共有 total_sites 个自旋"""
     op_list = []
