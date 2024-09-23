@@ -50,7 +50,7 @@ def construct_hamiltonian(sites, edges, extended_edges, t, U, V, mu):
             ci_dagger = ci.transpose()
             cj_dagger = cj.transpose()
             H -= t * (ci_dagger @ cj + cj_dagger @ ci)
-
+    print(H)
     for (i, j) in extended_edges:
         ni_up = create_number_op(i, 0, sites)
         nj_up = create_number_op(j, 0, sites)
@@ -70,8 +70,8 @@ def calculate_expectation_value(ground_state, sites):
     exp_values = np.zeros((sites, 2))
     for i in range(sites):
         for spin in [0, 1]:
-            ni = create_number_op(i, spin, sites)
-            exp_values[i, spin] = ground_state @ ni @ ground_state
+            n_i = create_number_op(i, spin, sites)
+            exp_values[i, spin] = ground_state @ n_i @ ground_state
     return exp_values
 
 def calculate_sub_hamiltonian(H, basis):
@@ -85,14 +85,8 @@ def calculate_sub_hamiltonian(H, basis):
     return eigenvalues_sub
 
 def main():
-    t = 1.0
-    U = 6.0
-    V = 0.3
-    mu = 3.0
-
-    N_up = 2
-    N_down = 4
-
+    t, U, V, mu = 1.0, 6.0, 0.3, 3.0
+    N_up, N_down = 2, 4
     sites = 6
     edges = [(0, 2), (1, 3), (2, 4), (3, 5), (1, 2), (3, 4)]
     extended_edges = [(0 ,1), (2, 3), (1, 4), (4, 5)]
