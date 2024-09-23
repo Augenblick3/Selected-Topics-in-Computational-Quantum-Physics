@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.sparse import lil_matrix
+from scipy.sparse import lil_matrix, csr_matrix
 from scipy.sparse.linalg import eigsh
 
 def cnt_particles_before(state, site, spin):
@@ -43,6 +43,7 @@ def get_basis(N_up, N_down, sites):
 def construct_hamiltonian(sites, edges, extended_edges, t, U, V, mu):
     dim = 4 ** sites
     H = lil_matrix((dim, dim), dtype=np.float64)
+    # 这里的项的值是正负1，但是都是非对角的，只需要找到前面的粒子数就可以直接算出来，但是我还没有找到一个好的方法。
     for (i, j) in edges:
         for spin in [0, 1]:
             ci = create_creation_op(i, spin, sites)
@@ -50,7 +51,8 @@ def construct_hamiltonian(sites, edges, extended_edges, t, U, V, mu):
             ci_dagger = ci.transpose()
             cj_dagger = cj.transpose()
             H -= t * (ci_dagger @ cj + cj_dagger @ ci)
-    print(H)
+
+    # 以下全是对角项
     for (i, j) in extended_edges:
         ni_up = create_number_op(i, 0, sites)
         nj_up = create_number_op(j, 0, sites)
